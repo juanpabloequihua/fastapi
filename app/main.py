@@ -5,7 +5,7 @@ from . import models, config
 from .database import engine
 from .routers import post, user, auth, vote
 
-
+# uvicorn app.main --host 0.0.0.0 --port 8000 --reload
 # models.Base.metadata.create_all(bind = engine)
 
 app = FastAPI()
