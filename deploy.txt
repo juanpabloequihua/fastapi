@@ -1,0 +1,96 @@
+
+# local deployment:
+- uvicorn app.main --host 0.0.0.0 --port 8000 --reload
+
+### DEPLOYMENT IN HEROKU.
+Step 1: push into github.
+
+Step 2: push into heroku
+- heroku create [APP_NAME]
+- git push heroku main
+
+## Create a postgres instance: 
+- heroku addons:create heroku-postgresql:mini
+# Configure Env virables in heroku UI.
+- heroku run "alembic upgrade head"   ## run alembic to push changes to production
+- heroku ps:restart      ## Restart your app.
+
+Step 3: 
+
+
+#### DEPLOYMENT IN DIGITAL OCEAN:
+
+# Create Ubuntu server (VM) anywhere you want.
+# connect via ssh and isntall everything:
+- ssh usernae@ip_address
+- sudo apt update && sudo apt upgrade -y
+- sudo apt install python3-pip
+- sudo pip3 install virtualenv
+- sudo apt install postgresql postgresql-contrib -y
+- su - postgres
+#change password for user: 
+- \password postgres 
+- psql -U postgres
+cd /etc/postgres/12/main 
+
+## create user:
+adduser [USERNAME]
+usermod -aG sudo [USERNAME]
+
+## Create folder to app.
+cd ~
+mkdir app
+cd app
+virtualenv virtualenv
+source venv/bin/activate
+
+mkdir src
+cd src
+git clone http://...  .
+pip install -r requirements.txt
+
+## Create environment varibles:
+export MY_VARIABLE=VALUE ## One single variable
+- touch .env 
+- vi .env 
+MY_VARIABLE=VALUE 
+VAR2=value2
+# set following comand in vi .profile (at the end)
+- set -o allexport; source /home/username/.env; set +o export
+- create new user for DB
+- alembic upgrade head # set up database
+- uvicorn --host 0.0.0.0 app.main:app 
+
+- pip isntall gunicorn httptools uvtools uvloop
+- gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app --bing 0.0.0.0:8000
+
+
+## Create system crl: gunicorn.service
+[Unit]
+Description= demofast API
+After: network.targer
+
+[Service]
+User=juan
+Group=juan
+WorkingDirectory=/home/juan/app/scr/
+Environment="PATH=/home/juan/app/venv/bin/"
+EnvironmentFile=/home/juan/.env
+ExecStart=/home/juan/app/venv/bin/gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app --bing 0.0.0.0:8000
+
+[Install]
+WantedBy=multi-user.target
+
+
+- cd /etc/systemd/system
+- sudo vi api.service ## copy and paste service details above. 
+
+
+
+
+[DOCKER]
+- docker-compose -f docker-compose-prod.yml up -d
+- docker-compose -f docker-compose-prod.yml down
+
+
+
