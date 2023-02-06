@@ -5,8 +5,10 @@ from . import models, config
 from .database import engine
 from .routers import post, user, auth, vote
 
+
 # uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 # models.Base.metadata.create_all(bind = engine)
+## Adding new comment for commit test
 
 app = FastAPI()
 

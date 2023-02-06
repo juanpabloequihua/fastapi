@@ -1,6 +1,7 @@
 
 # local deployment:
-- uvicorn app.main --host 0.0.0.0 --port 8000 --reload
+- alembic upgrade head # SET UP DATABASE
+- uvicorn app.main --host 0.0.0.0 --port 8000 --reload ## LUCNH APP.
 
 ### DEPLOYMENT IN HEROKU.
 Step 1: push into github.
