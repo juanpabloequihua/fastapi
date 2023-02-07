@@ -59,3 +59,5 @@ def test_unauthorized_user_create_all_posts(client,test_user,test_posts):
     res = client.post('/posts/', json={"title": "title published", "content": "dsfdsfsdfg"})
     assert res.status_code == 401
 
+
+
