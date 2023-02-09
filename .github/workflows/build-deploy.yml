@@ -7,7 +7,7 @@ on:
     branches: ["main"]
 
 jobs:
-  job1:
+  build:
     environment: Testing
     env:
       DATABASE_HOSTNAME: ${{secrets.DATABASE_HOSTNAME}}
@@ -75,3 +75,37 @@ jobs:
           
       - name: Image Digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+  
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   needs: [build]
+  #   environment: production
+
+  #   ## Using Heroku actions:
+  #   # add global variables from Heroku
+  #   steps:
+  #     - name: Pulling git repo
+  #       uses: actions/checkout@v2
+
+  #     - name: Deploying to Heroku
+  #       uses: akhileshns/heroku-deploy@v3.12.12
+  #       with:
+  #         heroku_apo_key: ${{secrets.HEROKY_API_KEY}}
+  #         heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+  #         heroku_email: ${{secrets.HEROKU_EMAIL}}
+
+
+  # name: deploy into ubuntu server
+  # uses: appleboy/ssh-action@master
+  # with:
+  #   host: ${{secrets.PROD_HOST}}
+  #   username: ${{secrets.PROD_USERNAME}}
+  #   password: ${{secrets.PROD_PASSWORD}}
+  #   script:
+  #     cd app/src
+  #     git pull
+  #     echo ${{secrets.PROD_PASSWORD}} | sudo -S systemctl restart api
+
+
+
+
