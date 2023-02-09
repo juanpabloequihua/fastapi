@@ -54,8 +54,9 @@ jobs:
         uses: docker/login-action@v1
         with: 
           username: ${{secrets.DOCKER_HUB_USERNAME}}
-          passwors: ${{secrets.DOCKERHUB_ACCESS_TOKEN}}
+          password: ${{secrets.DOCKERHUB_ACCESS_TOKEN}}
       
+      # Push image to docker hub
       - name: Setup Docker BuildX
         id: buildx
         uses: docker/setup-buildx-action@v1
